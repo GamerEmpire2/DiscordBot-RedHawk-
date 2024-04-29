@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Hawks MC</title>
+    <link rel="stylesheet" type="text/css" href="./CSS/main_body_colors.css">
+    <link rel="stylesheet" type="text/css" href="./CSS/header_colors.css">
+    <link rel="icon" href="./Images/emblem_512.png" type="image/png">
+    <style>
+        body {
+            font-family: "Timesi.ttf", Times, serif;
+        }
+    </style>
+
+</head>
+<body>
+
+
+
+    <header>
+
+        <h1 class="site-title">Red Hawk Mercenary Company</h1>
+
+        <nav>
+
+            <a href="home.html">Home</a>
+
+            <a href=""></a>
+
+            <a href=""></a>
+
+            <a href="aboutus.html">About</a>
+
+            <a href="admiral_rules.html">Admiral Roles</a>
+
+            <a href="staffmembers.html">Staff Members</a>
+
+        </nav>
+
+    </header>
+
+    <div id="docContainer" style="text-align:center;">
+        <button onclick="loadDoc()">Show Coast Guard Protcols Document</button>
+    </div>
+    <div id="iframeContainer" style="text-align: center;">
+        <button onclick="hideDoc()">Hide Coast Guard Protocols Document</button>
+        <iframe id="docFrame" style="width: 90%; max-width: 1200px; height: 600px; border: 1px solid #000;" src="" scrolling="yes"></iframe>
+    </div>
+    
+
+    <script>
+        function loadDoc() {
+            document.getElementById("docContainer").style.display = "none";
+            document.getElementById("iframeContainer").style.display = "block";
+            document.getElementById("docFrame").src = "https://docs.google.com/document/d/e/2PACX-1vSjYbLCUi1Fl0gV89XAIyOwjm7HuOfCOR5LTS-bQPb3SzTPzA2HWpoj7ExoybHFPgUMbehYoEAf3D89/pub?embedded=true";
+        }
+
+        function hideDoc() {
+            document.getElementById("docContainer").style.display = "block";
+            document.getElementById("iframeContainer").style.display = "none";
+            document.getElementById("docFrame").src = "";
+        }
+    </script>
+</body>
+</html>
