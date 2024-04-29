@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Hawks MC</title>
+    <link rel="stylesheet" type="text/css" href="main_body_colors.css">
+    <link rel="stylesheet" type="text/css" href="header_colors.css">
+   <link rel="icon" href="emblem_512.png" type="image/png">
+    <style>
+        body {
+            font-family: "Timesi.ttf", Times, serif;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <header>
+        <div class="header-left">
+            <img src="emblem_512.png" alt="Logo" class="logo">
+            <h1>Red Hawks Mercenary Company</h1>
+           </div>
+        <nav>
+            <a href="https://redhawkmc.lovestoblog.com">Home</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="login.html">Login</a>
+            <a href="aboutus.html">About</a>
+            <a href="admiral_rules.html">Admiral Rules</a>
+            <a href="staffmembers.html">Staff Members</a>
+        </nav>
+        <style>
+            /* Style for search bar */
+            .search-bar {
+                margin-bottom: 20px;
+            }
+            .search-bar input[type="text"] {
+                width: 200px;
+                padding: 5px;
+            }
+            .search-bar button {
+                padding: 5px 10px;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="searchSection()">Search</button>
+        </div>
+    
+        <section id="section1">
+            <h2 class="section-title">Test Section</h2>
+            <p>Temporary content for testing</p>
+            <p>More temporary content</p>
+        </section>
+    
+        <section id="section2">
+            <h3 class="section-title">Temporary Section 5</h3>
+            <p>Content related to testing</p>
+        </section>
+    
+        <section id="section3">
+            <h4 class="section-title">Video Links</h4>
+            <div id="video-container">
+                <iframe width="215" height="215" src="https://www.youtube.com/embed/vrOZqEexJ44" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </section>
+    
+        <section id="section4">
+            <h5 class="section-title">Temporary Section 7</h5>
+            <p>More test content</p>
+        </section>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>We are a dedicated Starbase roleplay group exploring the vast universe together.</p>
+                </div>
+                <div class="footer-section">
+                    <h3></h3>
+                    <p></p>
+                    <p></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <ul>
+                        <li><a href="https://discord.gg/D2JtuUBpgP">Discord</a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Starbase Red Hawks Mercenary Company roleplay group holds exclusive rights to their content.</p>
+            </div>
+        </footer>
+        <script>
+            function searchSection() {
+                var searchText = document.getElementById('searchInput').value.toLowerCase();
+                var sections = document.querySelectorAll('section');
+    
+                sections.forEach(function(section) {
+                    var sectionTitle = section.querySelector('.section-title').textContent.toLowerCase();
+                    var sectionContent = section.textContent.toLowerCase();
+                    if (sectionTitle.includes(searchText) || sectionContent.includes(searchText)) {
+                        section.style.display = 'block'; // Show section if it contains the search text
+                    } else {
+                        section.style.display = 'none'; // Hide section if it doesn't contain the search text
+                    }
+                });
+            }
+        </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+/* Resetting default styles */
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Global styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+header {
+    background-color: #092644; /* Header color */
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+.site-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+nav {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+nav a {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #0056b3;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.search-bar {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.search-bar input[type="text"] {
+    padding: 8px;
+    width: 200px;
+    border: none;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.search-bar button {
+    padding: 8px 15px;
+    background-color: #0056b3;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+main {
+    background-color: #fff; /* Main page color */
+}
+
+section {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff; /* Section color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.section-title {
+    font-size: 28px;
+    color: #ff1e00;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #007bff;
+}
+
+p {
+    line-height: 1.6;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
