@@ -1,0 +1,25 @@
+{
+    "Manager": {
+        "host": "localhost",
+        "port": 5000,
+        "stopbotsonshutdown": true,
+        "pythonpath": "venv/Scripts/python.exe"
+    },
+    "GUI": {
+        "host": "localhost",
+        "port": 5001
+    },
+    "Bots": {
+        "GPTBot": {
+            "name": "GPT Bot",
+            "envtoken": "TOKEN",
+            "type": "GPTBot",
+            "commands": ["hello", "goodbye", "chat"],
+            "showingui": true
+        }
+    },
+    "GPT2Server": {
+        "host": "localhost",
+        "port": 5002
+    }
+}

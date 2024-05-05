@@ -1,2 +1,3 @@
 venv/
 .env
+server/tools/__pycache__/encryption.cpython-312.pyc
