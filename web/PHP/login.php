@@ -1,10 +1,17 @@
 <?php
-session_start();
+session_start(); // Start a new or resume an existing session
+
+// Include Composer's autoloader
+require __DIR__ . '/vendor/autoload.php';
+
+// Load environment variables from .env file
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 // Define user ID's and passwords
 $users = [
-    'Tony' => 'Ktt573009',
-    'jane456' => 'pass456'
+    'Tony' => $_ENV['TONY_PASSWORD'],
+    'jane456' => $_ENV['JANE456_PASSWORD']
 ];
 
 // Check if the form is submitted
