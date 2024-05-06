@@ -125,26 +125,6 @@
                     }
                 });
             }
-        </script>
-        <script>
-            function updateTokenOfTheDay() {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', '/path/to/your/script.php', true);
-                xhr.onload = function() {
-                    if (xhr.status >= 200 && xhr.status < 400) {
-                        console.log('Token of the day updated successfully.');
-                    } else {
-                        console.error('Error updating token of the day.');
-                    }
-                };
-                xhr.onerror = function() {
-                    console.error('Request failed.');
-                };
-                xhr.send();
-            }
-            
-            // Call updateTokenOfTheDay function every hour (3600000 milliseconds)
-            setInterval(updateTokenOfTheDay, 3600000);
-            </script>            
+        </script>           
 </body>
 </html>
