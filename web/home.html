@@ -23,7 +23,7 @@
            </div>
         <nav>
             <a href="home.html">Home</a>
-            <a href=""></a>
+            <a href="Dashboard.html">Dashboard</a>
             <a href=""></a>
             <a href="aboutus.html">About</a>
             <a href="admiral_rules.html">Admiral Rules</a>
@@ -126,5 +126,25 @@
                 });
             }
         </script>
+        <script>
+            function updateTokenOfTheDay() {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/path/to/your/script.php', true);
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 400) {
+                        console.log('Token of the day updated successfully.');
+                    } else {
+                        console.error('Error updating token of the day.');
+                    }
+                };
+                xhr.onerror = function() {
+                    console.error('Request failed.');
+                };
+                xhr.send();
+            }
+            
+            // Call updateTokenOfTheDay function every hour (3600000 milliseconds)
+            setInterval(updateTokenOfTheDay, 3600000);
+            </script>            
 </body>
 </html>
