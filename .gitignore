@@ -1,4 +1,4 @@
+__pycache__
 venv/
 .env
-server/tools/__pycache__/
 tokens.txt
