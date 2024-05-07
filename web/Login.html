@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Hawks MC</title>
+    <link rel="stylesheet" type="text/css" href="./CSS/main_body_colors.css">
+    <link rel="stylesheet" type="text/css" href="./CSS/header_colors.css">
+    <style>
+        body {
+            font-family: "Timesi.ttf", Times, serif;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <header>
+        <div class="header-left">
+            <img src="./Images/emblem_512.png" alt="Logo" class="logo">
+            <h1>Red Hawks Mercenary Company</h1>
+           </div>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="Login.html">Dashboard</a>
+            <a href="">Coming Soon</a>
+            <a href="aboutus.html">About</a>
+            <a href="admiral_rules.html">Admiral Rules</a>
+            <a href="staffmembers.html">Staff Members</a>
+        </nav>
+
+        <section id="section1">
+            <h1 class="section-title">Please Login to continue to Dashboard</h1>
+            <form id="loginForm" action="#" method="post">
+                <input type="text" id="userID" name="userID" placeholder="User ID" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+                <p id="loginError" style="color: red;"></p>
+            </form>
+        </section>
+        
+        <script>
+            document.getElementById("loginForm").addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent the form from submitting
+            
+                // Get the input values
+                var enteredPassword = document.getElementById("password").value;
+            
+                // Username (hardcoded)
+                var enteredUsername = "Tony";
+            
+                // Read the local file content
+                var fileInput = new FileReader();
+                fileInput.onload = function(event) {
+                    var data = event.target.result;
+            
+                    // Split the text into an array of lines
+                    var lines = data.split("\n");
+            
+                    // Iterate over each line
+                    for (var i = 0; i < lines.length; i++) {
+                        // Split each line by "="
+                        var parts = lines[i].split("=");
+            
+                        // Check if there are two parts
+                        if (parts.length === 2 && parts[0].trim() === enteredUsername) {
+                            var password = parts[1].trim();
+            
+                            // Check if the password matches
+                            if (password === enteredPassword) {
+                                // Successful login
+                                window.location.href = "dashboard.html"; // Redirect to dashboard.html
+                                return;
+                            }
+                        }
+                    }
+            
+                    // If no match is found, show an error message
+                    document.getElementById("loginError").textContent = "Invalid password";
+                };
+            
+                fileInput.onerror = function(event) {
+                    // If an error occurs during file read, show an error message
+                    console.error('Error reading file:', event.target.error);
+                    document.getElementById("loginError").textContent = "An error occurred while reading the file";
+                };
+            
+                fileInput.readAsText(new Blob([""], {type: 'text/plain'}), "Users.txt");
+            });
+            </script>
+    </header>
+</body>

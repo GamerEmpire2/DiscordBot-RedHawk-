@@ -1,2 +1,0 @@
-Password("409125766563889152") = "test"
-Password("Tony") = "Ktt573009"
