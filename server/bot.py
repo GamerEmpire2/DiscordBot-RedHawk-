@@ -66,6 +66,16 @@ def can_use_command(rank, command):
     allowed_commands = rank_commands.get(rank, [])
     return command in allowed_commands
 
+def read_ranks(file_path):
+    ranks = {}
+    with open(file_path, 'r') as file:
+        for line in file:
+            user_id, rank_name = line.strip().split(',')
+            ranks[int(user_id)] = rank_name
+    return ranks
+
+user_ranks = read_ranks('./test-files/UserRanks.txt')
+
 # fetch commands:
 
 def fetch_commands():
@@ -130,6 +140,23 @@ async def fetch_and_execute(ctx):
     commands = fetch_commands()
     await execute_commands(commands)
     await ctx.send("Fetched and Execute")
+
+@bot.command(name="Check Rank")
+async def check_rank(ctx):
+    # Get user's ID
+    user_id = ctx.author.id
+    
+    # Check if user's ID exists in user_ranks
+    if user_id in user_ranks:
+        # Get the user's rank
+        user_rank_name = user_ranks[user_id]
+        
+        # Create and send embed
+        embed = discord.Embed(title="Rank Information", description=f"User: {ctx.author.mention}", color=0x00ff00)
+        embed.add_field(name="Rank", value=user_rank_name, inline=False)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send("You don't have a rank.")
 
 # on ready code:
 
