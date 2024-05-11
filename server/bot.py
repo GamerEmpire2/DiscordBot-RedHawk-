@@ -5,6 +5,8 @@ import dotenv # when using the restart command it errors here after the restart.
 import asyncio
 import subprocess
 import requests
+import random
+import string
 
 # this will be your GUI but for now we will use cmd
 
@@ -189,6 +191,19 @@ async def _check_database(ctx):
             await ctx.send("Database is available")
         else:
             await ctx.send("Database is not available")
+    else:
+        await ctx.send("You dont have permission to use this command")
+
+@bot.command(name="DashBoard")
+async def _get_token(ctx):
+    required_rank = [9, 8, 7]
+    author_rank = get_rank(ctx.author)
+
+    if author_rank in required_rank:
+        # Generate a random token
+        token = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+        # Send the token via DM
+        await ctx.author.send(f"Your token: {token}")
     else:
         await ctx.send("You dont have permission to use this command")
 
