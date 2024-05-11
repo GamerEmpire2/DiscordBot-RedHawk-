@@ -3,3 +3,4 @@ venv/
 .env
 tokens.txt
 Users.txt
+discordbot.db
