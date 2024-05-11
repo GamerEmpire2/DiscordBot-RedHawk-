@@ -2,4 +2,6 @@ import subprocess
 import os
 
 server_directory = os.path.join(os.getcwd(), "server")
-subprocess.run(["python", "restart_bot.py"])
+restart_script_path = os.path.join(server_directory, "bot.py")
+
+subprocess.run(["python", restart_script_path])
