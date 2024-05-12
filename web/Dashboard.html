@@ -41,7 +41,7 @@
 <body>
     <header>
         <div class="header-left">
-            <img src="./Images/emblem_512.png" alt="Logo" class="logo">
+            <img src=".\Images\emblem_512.png" alt="Logo" class="logo">
             <h1>Red Hawks Mercenary Company Dashboard</h1>
         </div>
         <nav>
@@ -55,7 +55,7 @@
     </header>
 
     <div class="navbar">
-        <a class="active" href="#" onclick="showSection('profile')">Profile</a>
+        <a class="active" href="#" onclick="showSection('geranal')">geranal</a>
         <a href="#" onclick="showSection('settings')">Settings</a>
         <a href="#" onclick="showSection('security')">Security</a>
     </div>
@@ -64,6 +64,27 @@
     <div id="geranal" class="dashboard-section">
         <h2>geranal</h2>
         <p>This is your geranal information.</p>
+        <form id="settings-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your new username"><br><br>
+        
+            <label for="enable_notifications">Enable Notifications:</label>
+            <input type="checkbox" id="enable_notifications" name="enable_notifications"><br><br>
+        
+            <label for="notification_sound">Notification Sound:</label>
+            <select id="notification_sound" name="notification_sound">
+                <option value="default">Default</option>
+                <option value="sound1">Sound 1</option>
+                <option value="sound2">Sound 2</option>
+            </select><br><br>
+        
+            <label for="notification_volume">Notification Volume:</label>
+            <input type="range" id="notification_volume" name="notification_volume" min="0" max="100" value="50"><br><br>
+        
+            <input type="submit" value="Save Settings">
+        </form>
+        
+        <script src="./Javascript/geranalwebhook.js"></script>       
     </div>
 
     <div id="settings" class="dashboard-section">
