@@ -207,6 +207,16 @@ async def _get_token(ctx):
     else:
         await ctx.send("You dont have permission to use this command")
 
+@bot.command(name="ViewRank", guild_only=True)
+async def _see_rank(ctx):
+    required_rank = [9, 8, 7]
+    author_rank = get_rank(ctx.author)
+
+    if author_rank in required_rank:
+        await ctx.send("command is comming soon")
+    else:
+        await ctx.send("You dont have permission to use this command", ephemeral=True)
+
 # on ready code:
 
 @bot.event
