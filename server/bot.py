@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import os
-import dotenv # when using the restart command it errors here after the restart.py calls this file
+from dotenv import load_dotenv # when using the restart command it errors here after the restart.py calls this file
 import asyncio
 import subprocess
 import requests
@@ -26,16 +26,16 @@ bot = commands.Bot(command_prefix='$', intents=intents)
 #ranks:
 
 ranks = {
-    "Martian": 9,
-    "Big Cheese": 9,
-    "General": 7,
-    "Colonel": 6,
-    "Major": 5,
-    "Captain": 4,
-    "Lieutenant": 3,
-    "Sergeant": 2,
-    "Private": 1,
-    "Viewonly": 0,
+    9: "Martian",
+    9: "Big Cheese",
+    7: "General",
+    6: "Colonel",
+    5: "Major",
+    4: "Captain",
+    3: "Lieutenant",
+    2: "Sergeant",
+    1: "Private",
+    0: "Viewonly",
 }
 
 rank_commands = {
@@ -53,17 +53,44 @@ rank_commands = {
 
 #members ranks:
 
-martain_id = 267360288913883136
+martain_id = 267360288913883136 #EMU
 Big_Cheese_id = [745262479009120266, 1225272276979810386] # i have my alt account here too
+Gerneral_id = 409125766563889152 #Piano cat
 
 # rank function:
 
 def get_rank(member):
+
     if member.id == martain_id:
-        return ranks["Martian"]
+        return 9
     elif member.id in Big_Cheese_id:
-        return ranks["Big Cheese"]
-    
+        return 9
+    elif member.id == Gerneral_id:
+        return 7
+
+def memebr_rank(ctx):
+    if ctx.author.id == martain_id:
+        return "Martian"
+    elif ctx.author.id in Big_Cheese_id:
+        return "Big_Cheese"
+    elif ctx.author.id == Gerneral_id:
+        return "Gerneral"
+    else:
+        for rank, commands in rank_commands.items():
+            if ctx.author.id in commands:
+                return ranks[rank]
+        return "unknown"
+        
+def rank_level(ctx):
+    if memebr_rank(ctx) == "Martian":
+        return 9
+    elif memebr_rank(ctx) == "Big_Cheese":
+        return 9
+    elif memebr_rank(ctx) == "General":
+        return 7
+    elif memebr_rank(ctx) == "Colonel":
+        return 6
+
 def can_use_command(rank, command):
     allowed_commands = rank_commands.get(rank, [])
     return command in allowed_commands
@@ -116,14 +143,44 @@ async def execute_commands(commands):
             else:
                 print("Channel not found.")
 
-# Commands:
+#-------------------------------------------------
+#                   Commands:
+#-------------------------------------------------
 
 @bot.command(name="list", description="to list all commands")
 async def _list(ctx):
-    command_list = [command.name for command in bot.commands]
-    embed = discord.Embed(title="Available Commands", color=discord.Colour.blue())
-    embed.description = "\n".join(command_list)
-    await ctx.send(embed=embed)
+    commands = [command.name for command in bot.commands]
+    pages = []
+    for i in range(0, len(commands), 8):
+        page_commands = commands[i:i + 8]
+        embed = discord.Embed(title="Available Commands", color=discord.Colour.blue())
+        embed.description = "\n".join(page_commands)
+        pages.append(embed)
+
+    current_page = 0
+    message = await ctx.send(embed=pages[current_page])
+
+    await message.add_reaction("⬅️")
+    await message.add_reaction("➡️")
+
+    def check(reaction, user):
+        return user == ctx.author and str(reaction.emoji) in ["⬅️", "➡️"]
+
+    while True:
+        try:
+            reaction, user = await bot.wait_for("reaction_add", timeout=60, check=check)
+
+            if str(reaction.emoji) == "➡️" and current_page < len(pages) - 1:
+                current_page += 1
+                await message.edit(embed=pages[current_page])
+            elif str(reaction.emoji) == "⬅️" and current_page > 0:
+                current_page -= 1
+                await message.edit(embed=pages[current_page])
+
+            await message.remove_reaction(reaction, user)
+
+        except asyncio.TimeoutError:
+            break
 
 @bot.command(name="post", guild_only=True)
 async def _post(ctx):
@@ -132,7 +189,7 @@ async def _post(ctx):
 
 @bot.command(name="restart", guild_only=False)
 async def _Restart(ctx):
-    required_rank = [8,9]
+    required_rank = [9, 8, 7]
     author_rank = get_rank(ctx.author)
 
     if author_rank in required_rank:
@@ -157,28 +214,21 @@ async def check_rank(ctx):
     
     # Check if user's ID exists in user_ranks
     if user_id in user_ranks:
-        # Get the user's rank from the user_ranks dictionary
         user_rank_name = user_ranks[user_id]
         user_rank_level = ranks.get(user_rank_name)
     else:
-        # If user's rank is not found in user_ranks, use the get_rank function
-        user_rank_name = get_rank(ctx.author)
-        user_rank_level = ranks.get(user_rank_name)
+        user_rank_name = memebr_rank(ctx)
+        user_rank_level = rank_level(ctx)
+        print(user_rank_level)
         
     if user_rank_level is not None:
-        # Create and send embed with rank information
+       
+        # Create and send embed
+        
         embed = discord.Embed(title="Rank Information", description=f"User: {ctx.author.mention}", color=0x00ff00)
         embed.add_field(name="Rank", value=user_rank_name, inline=False)
         embed.add_field(name="Rank Level", value=user_rank_level, inline=False)
         await ctx.send(embed=embed)
-    else:
-        await ctx.send("Your rank level is unknown.")
-        
-    # Create and send embed
-    embed = discord.Embed(title="Rank Information", description=f"User: {ctx.author.mention}", color=0x00ff00)
-    embed.add_field(name="Rank", value=user_rank_name, inline=False)
-    embed.add_field(name="Rank Level", value=user_rank_level, inline=False)  # Add rank level to embed
-    await ctx.send(embed=embed)
 
 @bot.command(name="Verify_Database")
 async def _check_database(ctx):
@@ -207,16 +257,55 @@ async def _get_token(ctx):
     else:
         await ctx.send("You dont have permission to use this command")
 
+
 @bot.command(name="ViewRank", guild_only=True)
-async def _see_rank(ctx):
+async def _see_rank(ctx, user_id: int):
     required_rank = [9, 8, 7]
     author_rank = get_rank(ctx.author)
 
-    if author_rank in required_rank:
-        await ctx.send("command is comming soon")
-    else:
-        await ctx.send("You dont have permission to use this command", ephemeral=True)
+    if author_rank not in required_rank:
+        await ctx.send("You don't have permission to use this command", ephemeral=True)
+        return
 
+    guild = ctx.guild
+    member = guild.get_member(user_id)
+    if member is None:
+        await ctx.send("User not found", ephemeral=True)
+        return
+    
+    if user_id in user_ranks:
+        user_rank_name = user_ranks[user_id]
+        user_rank_level = ranks.get(user_rank_name)
+    else:
+        user_rank_name = memebr_rank(ctx)
+        user_rank_level = rank_level(ctx)
+        print(user_rank_level)
+
+    embed = discord.Embed(title="User Rank Information", color=discord.Color.blue())
+    embed.add_field(name="User", value=member.display_name, inline=False)
+    embed.add_field(name="Rank Title", value=user_rank_name, inline=False)
+    embed.add_field(name="Rank Level", value=user_rank_level, inline=False)
+    await ctx.send(embed=embed)
+
+class BotControl(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(name="Shutdown")
+    async def shutdown(self, ctx):
+        required_rank = [9, 8, 7]
+        author_rank = get_rank(ctx.author)
+
+        if author_rank not in required_rank:
+            await ctx.send("You don't have permission to use this command", ephemeral=True)
+            return
+
+        await ctx.send("Shutting down...")
+        await self.bot.logout()
+
+intents = discord.Intents.default()
+intents.all()
+    
 # on ready code:
 
 @bot.event
@@ -228,4 +317,5 @@ async def on_ready():
         await channel.send("Bot is online and ready. System now Operational.")
 
 # bot run code:
+bot.add_cog(BotControl(bot))
 bot.run(TOKEN)
