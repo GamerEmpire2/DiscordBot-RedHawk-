@@ -55,7 +55,8 @@ rank_commands = {
 
 martain_id = 267360288913883136 #EMU
 Big_Cheese_id = [745262479009120266, 1225272276979810386] # i have my alt account here too
-Gerneral_id = 409125766563889152 #Piano cat
+General_id = 409125766563889152 #Piano cat
+Colonel_id = [957362142418456627, ] #the other admirtals of a braich
 
 # rank function:
 
@@ -65,16 +66,22 @@ def get_rank(member):
         return 9
     elif member.id in Big_Cheese_id:
         return 9
-    elif member.id == Gerneral_id:
+    elif member.id in General_id:
         return 7
+        print(get_rank)
+    elif member.id in Colonel_id:
+        return 6
 
 def memebr_rank(ctx):
     if ctx.author.id == martain_id:
         return "Martian"
     elif ctx.author.id in Big_Cheese_id:
         return "Big_Cheese"
-    elif ctx.author.id == Gerneral_id:
+    elif ctx.author.id in General_id:
         return "Gerneral"
+        print(memebr_rank)
+    elif ctx.author.id in Colonel_id:
+        return "Colonel"
     else:
         for rank, commands in rank_commands.items():
             if ctx.author.id in commands:
@@ -88,6 +95,7 @@ def rank_level(ctx):
         return 9
     elif memebr_rank(ctx) == "General":
         return 7
+        print(rank_level)
     elif memebr_rank(ctx) == "Colonel":
         return 6
 
@@ -232,7 +240,7 @@ async def check_rank(ctx):
 
 @bot.command(name="Verify_Database")
 async def _check_database(ctx):
-    required_rank = [9, 8, 7]
+    required_rank = [9, 8, 7, 6]
     author_rank = get_rank(ctx.author)
 
     if author_rank in required_rank:
@@ -260,7 +268,7 @@ async def _get_token(ctx):
 
 @bot.command(name="ViewRank", guild_only=True)
 async def _see_rank(ctx, user_id: int):
-    required_rank = [9, 8, 7]
+    required_rank = [9, 8, 7, 6]
     author_rank = get_rank(ctx.author)
 
     if author_rank not in required_rank:
@@ -291,7 +299,7 @@ class BotControl(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="Shutdown")
+    @bot.command(name="Shutdown")
     async def shutdown(self, ctx):
         required_rank = [9, 8, 7]
         author_rank = get_rank(ctx.author)
@@ -315,6 +323,8 @@ async def on_ready():
     channel = bot.get_channel(systemChannel)
     if channel:
         await channel.send("Bot is online and ready. System now Operational.")
+        #await asyncio.sleep(10)
+        #os.system("logger.py")
 
 # bot run code:
 bot.add_cog(BotControl(bot))
