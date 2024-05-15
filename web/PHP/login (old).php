@@ -2,8 +2,6 @@
 session_start(); // Start a new or resume an existing session
 // Include Composer's autoloader
 require __DIR__ . '/vendor/autoload.php';
-// Include the utils.php file
-require __DIR__ . '/utils.php';
 // Include the database.php file
 require __DIR__ . '/database.php';
 

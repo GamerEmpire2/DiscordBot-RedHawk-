@@ -1,9 +1,16 @@
 <?php
 // Include Composer's autoloader
 require __DIR__ . '/../vendor/autoload.php';
+// Include the utils.php file
+require __DIR__ . '/utils.php';
 // Load environment variables from .env file
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
+$dotenvFile = findDotenvFile(__DIR__);
+if ($dotenvFile === false) {
+    throw new Exception('Could not find .env file');
+}
+$dotenv = Dotenv\Dotenv::createImmutable(dirname($dotenvFile));
 $dotenv->load();
+
 $db_path = $_ENV['PROJECT_ROOT'] . '/db/database.db';
 $pdo = new PDO('sqlite:' . $db_path);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
