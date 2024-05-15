@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import bcrypt
 
 def initialize_database():
     latest_version = get_latest_version()
@@ -31,12 +32,15 @@ def update_database_to_version(cursor, version):
     if not isinstance(version, int) or version < 1:
         raise ValueError("Invalid version number")
 
-    # Construct the filename
-    filename = f'{migrations_path}/{version}.sql'
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    filename = os.path.join(current_dir, migrations_dir, f'{version}.sql') # Get migrations file
 
     # Read the SQL commands from the file
     with open(filename, 'r') as f:
         sql_commands = f.read()
+
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
 
     try:
         # Execute the database migration in a transaction in case of error
@@ -55,7 +59,9 @@ def update_database_to_version(cursor, version):
 
 def get_latest_version():
     # Get a list of all .sql files in the ./db/migrations directory
-    files = os.listdir(migrations_path)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    migrations_dir = os.path.join(current_dir, 'migrations')
+    files = os.listdir(migrations_dir)
 
     # Extract the version numbers from the filenames
     versions = []
@@ -69,6 +75,13 @@ def get_latest_version():
 
     # Return the highest version number
     return max(versions)
+
+def create_user(username, email, discriminator, password):
+    # Generate a salt and hash the password
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+    # Call the existing add_user function to add the user to the database
+    add_user(username, email, discriminator, hashed_password.decode('utf-8'), hashed_password.decode('utf-8'))
 
 # Function to insert data into the users table
 def add_user(username, email, discriminator, hashed_password, salt):
@@ -90,7 +103,19 @@ def get_all_users():
     rows = cursor.fetchall()
     return rows
 
+def get_user_credentials(username):
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT hashed_password, salt FROM users WHERE username = ?", (username,))
+    row = cursor.fetchone()
+
+    if row:
+        return row[0], row[1]
+    else:
+        return None, None
+
 # Execute commands
 db_path = './database.db'
-migrations_path = './migrations'
+migrations_dir = 'migrations'
 initialize_database()

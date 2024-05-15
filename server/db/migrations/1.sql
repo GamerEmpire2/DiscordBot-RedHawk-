@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS [version] (
 );
 
 CREATE TABLE IF NOT EXISTS [users] (
-    [id] INTEGER PRIMARY KEY,
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [username] TEXT NOT NULL,
     [email] TEXT NOT NULL,
     [discriminator] TEXT NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS [users] (
 );
 
 CREATE TABLE IF NOT EXISTS [tokens] (
-    [id] INTEGER PRIMARY KEY,
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [userId] TEXT NOT NULL,
     [token] TEXT,
     [token_created_at] DATETIME,
