@@ -15,7 +15,7 @@ if (!isset($_COOKIE['LogInToken'])) {
 }
 
 // TODO: Instead of selecting a token of the day, you should generate a new token whenever a user logs in and save the token in the
-//       session and in the database along with the user ID. Then, when the user logs in, you should compare the token in the session
+//       session and in the database along with the user ID and expiration. Then, when the user logs in, you should compare the token in the session
 //       with the token in the database to authenticate the user and token Expiration.
 
 // Get the token of the day from session
