@@ -16,6 +16,10 @@ if (isset($_COOKIE['token'])) {
     if ($userId) {
         // Token is valid, log the user in
         $_SESSION['loggedin'] = true;
+        $_SESSION['userId'] = $userId; // Store the user ID in the session
+    
+        // Regenerate session ID
+        session_regenerate_id(true);
 
         // Redirect to dashboard
         header("Location: dashboard.php");
@@ -39,6 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($hashedPassword && $hashedEnteredPassword === $hashedPassword) {
         // Password authentication successful, set session
         $_SESSION['loggedin'] = true;
+        // Regenerate session ID
+        session_regenerate_id(true);
         // Create a token for the user
         $token = create_token($username);
         // Set the token as a secure HTTP-only cookie

@@ -15,7 +15,6 @@
 </head>
 <body>
 
-
     <header>
         <div class="header-left">
             <img src="./Images/emblem_512.png" alt="Logo" class="logo">
@@ -29,7 +28,9 @@
             <a href="admiral_rules.html">Admiral Rules</a>
             <a href="staffmembers.html">Staff Members</a>
         </nav>
+    </header>
 
+    <div id="content">
         <section id="section1">
             <h1 class="section-title">Please Login to continue to Dashboard</h1>
             <form id="loginForm" action="#" method="post">
@@ -39,72 +40,73 @@
                 <p id="loginError" style="color: red;"></p>
             </form>
         </section>
-        
-        <script>
-            document.getElementById("loginForm").addEventListener("submit", function(event) {
-                event.preventDefault(); // Prevent the form from submitting
-        
-                // Get the input values
-                var enteredPassword = document.getElementById("password").value;
-        
-                // Username (hardcoded)
-                var enteredUsername = "tony";
-        
-                // Create a new FileReader object
-                var fileInput = new FileReader();
-        
-                // Set up event handlers for successful file reading and errors
-                fileInput.onload = function(event) {
-                    var data = event.target.result;
-        
-                    // Split the text into an array of lines
-                    var lines = data.split("\n");
-        
-                    // Iterate over each line
-                    for (var i = 0; i < lines.length; i++) {
-                        // Split each line by "="
-                        var parts = lines[i].split("=");
-        
-                        // Check if there are two parts
-                        if (parts.length === 2 && parts[0].trim() === enteredUsername) {
-                            var password = parts[1].trim();
-        
-                            // Check if the password matches
-                            if (password === enteredPassword) {
-                                // Successful login
-                                window.location.href = "dashboard.html"; // Redirect to dashboard.html
-                                return;
-                            }
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+    
+            // Get the input values
+            var enteredPassword = document.getElementById("password").value;
+    
+            // Username (hardcoded)
+            var enteredUsername = "tony";
+    
+            // Create a new FileReader object
+            var fileInput = new FileReader();
+    
+            // Set up event handlers for successful file reading and errors
+            fileInput.onload = function(event) {
+                var data = event.target.result;
+    
+                // Split the text into an array of lines
+                var lines = data.split("\n");
+    
+                // Iterate over each line
+                for (var i = 0; i < lines.length; i++) {
+                    // Split each line by "="
+                    var parts = lines[i].split("=");
+    
+                    // Check if there are two parts
+                    if (parts.length === 2 && parts[0].trim() === enteredUsername) {
+                        var password = parts[1].trim();
+    
+                        // Check if the password matches
+                        if (password === enteredPassword) {
+                            // Successful login
+                            window.location.href = "dashboard.html"; // Redirect to dashboard.html
+                            return;
                         }
                     }
-        
-                    // If no match is found, show an error message
-                    document.getElementById("loginError").textContent = "Invalid username or password";
-                };
-        
-                fileInput.onerror = function(event) {
-                    // If an error occurs during file read, show an error message
-                    console.error('Error reading file:', event.target.error);
-                    document.getElementById("loginError").textContent = "An error occurred while reading the file";
-                };
-        
-                // Read the file using fetch API
-                fetch("./text-files/Users.txt")
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("Network response was not ok");
-                        }
-                        return response.blob();
-                    })
-                    .then(blob => {
-                        fileInput.readAsText(blob);
-                    })
-                    .catch(error => {
-                        // If there's a fetch error, show an error message
-                        console.error('Fetch error:', error);
-                        document.getElementById("loginError").textContent = "An error occurred while fetching the file";
-                    });
-            });
-        </script>
-    </header>
+                }
+    
+                // If no match is found, show an error message
+                document.getElementById("loginError").textContent = "Invalid username or password";
+            };
+    
+            fileInput.onerror = function(event) {
+                // If an error occurs during file read, show an error message
+                console.error('Error reading file:', event.target.error);
+                document.getElementById("loginError").textContent = "An error occurred while reading the file";
+            };
+    
+            // Read the file using fetch API
+            fetch("./text-files/Users.txt")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    fileInput.readAsText(blob);
+                })
+                .catch(error => {
+                    // If there's a fetch error, show an error message
+                    console.error('Fetch error:', error);
+                    document.getElementById("loginError").textContent = "An error occurred while fetching the file";
+                });
+        });
+    </script>
+
 </body>

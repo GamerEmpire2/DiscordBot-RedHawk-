@@ -76,22 +76,22 @@ def get_latest_version():
     # Return the highest version number
     return max(versions)
 
-def create_user(username, email, discriminator, password):
+def create_user(username, email, password):
     # Generate a salt and hash the password
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     # Call the existing add_user function to add the user to the database
-    add_user(username, email, discriminator, hashed_password.decode('utf-8'), hashed_password.decode('utf-8'))
+    add_user(username, email, hashed_password.decode('utf-8'))
 
 # Function to insert data into the users table
-def add_user(username, email, discriminator, hashed_password, salt):
+def add_user(username, email, hashed_password):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
     cursor.execute("""
-        INSERT INTO users (username, email, discriminator, hashed_password, salt) 
-        VALUES (?, ?, ?, ?, ?)
-    """, (username, email, discriminator, hashed_password, salt))
+        INSERT INTO users (username, email, hashed_password) 
+        VALUES (?, ?, ?)
+    """, (username, email, hashed_password))
     conn.commit()
 
 # Function to fetch all users from the database

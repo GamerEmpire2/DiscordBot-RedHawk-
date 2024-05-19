@@ -6,12 +6,20 @@ CREATE TABLE IF NOT EXISTS [users] (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
     [username] TEXT NOT NULL,
     [email] TEXT NOT NULL,
-    [discriminator] TEXT NOT NULL,
-    [hashed_password] TEXT,
-    [salt] TEXT,
-    [token] TEXT,
-    [token_created_at] DATETIME,
-    [token_expires_at] DATETIME
+    [hashed_password] TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS [roles] (
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [role] TEXT NOT NULL
+    [description] TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS [user_roles] (
+    [id] INTEGER PRIMARY KEY AUTOINCREMENT,
+    [userId] INTEGER NOT NULL,
+    [roleId] TEXT NOT NULL,
+    [value] INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS [tokens] (

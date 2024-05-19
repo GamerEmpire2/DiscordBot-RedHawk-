@@ -45,6 +45,8 @@ function create_token($username) {
 function validate_token($token) {
     global $pdo;
 
+    $token = filter_var($token, FILTER_SANITIZE_STRING);
+
     // Get the token from the tokens table
     $stmt = $pdo->prepare("SELECT userId, token_expires_at FROM tokens WHERE token = ?");
     $stmt->execute([$token]);
@@ -58,5 +60,3 @@ function validate_token($token) {
         return null;
     }
 }
-
-?>
