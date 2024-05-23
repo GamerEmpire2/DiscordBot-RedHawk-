@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS [users] (
 
 CREATE TABLE IF NOT EXISTS [roles] (
     [id] INTEGER PRIMARY KEY AUTOINCREMENT,
-    [role] TEXT NOT NULL
+    [role] TEXT NOT NULL,
     [description] TEXT NOT NULL
 );
 
