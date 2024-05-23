@@ -16,9 +16,11 @@ import string
 systemChannel = 1233588735115919381
 #set up the bot
 
+pythonPath = "venv\\scripts\\python.exe"
 TOKEN = os.getenv("TOKEN")
 intents = discord.Intents.default()
 intents.message_content = True
+bot_restarted = None
 
 bot = commands.Bot(command_prefix='$', intents=intents)
 
@@ -26,7 +28,7 @@ bot = commands.Bot(command_prefix='$', intents=intents)
 #ranks:
 
 ranks = {
-    9: "Martian",
+    10: "Martian",
     9: "Big Cheese",
     7: "General",
     6: "Colonel",
@@ -39,7 +41,7 @@ ranks = {
 }
 
 rank_commands = {
-    "Martian": [9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+    "Martian": [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
     "Big Cheese": [9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
     "General": [7, 6, 5, 4, 3, 2, 1, 0],
     "Colonel": [6, 5, 4, 3, 2, 1, 0],
@@ -205,7 +207,7 @@ async def _Restart(ctx):
         bot_restarted = True
         await ctx.send("Restarting...")
         server_directory = os.path.join(os.getcwd(), "server")
-        subprocess.run(["python", "server\\restart.py"])
+        subprocess.run([pythonPath, "server\\restart.py"])
     else:
         await ctx.send("you Don't have permission to use this command")
 
@@ -279,6 +281,7 @@ async def _see_rank(ctx, user_id: int):
     member = guild.get_member(user_id)
     if member is None:
         await ctx.send("User not found", ephemeral=True)
+
         return
     
     if user_id in user_ranks:
@@ -311,20 +314,23 @@ class BotControl(commands.Cog):
         await ctx.send("Shutting down...")
         await self.bot.logout()
 
-intents = discord.Intents.default()
-intents.all()
+    intents = discord.Intents.default()
+    intents.all()
     
 # on ready code:
-
 @bot.event
 async def on_ready():
-    print("Bot is online and ready. System now Operational.")
-    await asyncio.sleep(2) # Wait 2 seconds
+    message = None
+    if bot_restarted == True:
+        message = "Bot restarted"
+    else:
+        message = "Bot is online and ready. System now Operational"
+        
+    print(message)
+    
     channel = bot.get_channel(systemChannel)
     if channel:
-        await channel.send("Bot is online and ready. System now Operational.")
-        #await asyncio.sleep(10)
-        #os.system("logger.py")
+        await channel.send(message)
 
 # bot run code:
 bot.add_cog(BotControl(bot))
