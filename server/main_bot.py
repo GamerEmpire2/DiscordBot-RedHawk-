@@ -53,6 +53,7 @@ rank_commands = {
     "Viewonly": [0]
 }
 
+
 #members ranks:
 
 martain_id = 267360288913883136 #EMU
