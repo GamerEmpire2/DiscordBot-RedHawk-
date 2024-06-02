@@ -7,6 +7,8 @@ import subprocess
 import requests
 import random
 import string
+import mysql
+import mysql.connector
 
 # this will be your GUI but for now we will use cmd
 
@@ -21,6 +23,8 @@ TOKEN = os.getenv("TOKEN")
 intents = discord.Intents.default()
 intents.message_content = True
 bot_restarted = None
+DataBasepassword = os.getenv("DATABASE")
+DataBase_user = os.getenv("DATABASEUSER")
 
 bot = commands.Bot(command_prefix='$', intents=intents)
 
@@ -154,6 +158,21 @@ async def execute_commands(commands):
             else:
                 print("Channel not found.")
 
+def store_token(discord_id, token):
+    db = mysql.connector.connect(
+        host="sql105.infinityfree.com",
+        user=DataBase_user,
+        password=DataBasepassword,
+        database="if0_36069910_token_keep"
+    )
+    cursor = db.cursor()
+
+    # Store the token with the associated Discord ID
+    cursor.execute("REPLACE INTO user_tokens (discord_id, token) VALUES (%s, %s)", (discord_id, token))
+    db.commit()
+    cursor.close()
+    db.close()
+
 #-------------------------------------------------
 #                   Commands:
 #-------------------------------------------------
@@ -263,10 +282,12 @@ async def _get_token(ctx):
     if author_rank in required_rank:
         # Generate a random token
         token = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+        # Store the token in the database
+        store_token(str(ctx.author.id), token)
         # Send the token via DM
         await ctx.author.send(f"Your token: {token}")
     else:
-        await ctx.send("You dont have permission to use this command")
+        await ctx.send("You don't have permission to use this command")
 
 
 @bot.command(name="ViewRank", guild_only=True)
