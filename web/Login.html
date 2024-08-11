@@ -4,26 +4,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Red Hawks MC</title>
-    <link rel="stylesheet" type="text/css" href="./CSS/main_body_colors.css">
-    <link rel="stylesheet" type="text/css" href="./CSS/header_colors.css">
     <style>
         body {
-            font-family: "Timesi.ttf", Times, serif;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://www.wix.com/dam/jcr:bbedb1c4-6d8b-4f0a-8e21-246c30f5d135/b11f5c34-3256-403d-b8dd-cc5f8ff94e14.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .header-left h1 {
+            font-size: 1.5em;
+            color: white;
+        }
+
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        #content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-form {
+            max-width: 300px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .login-form h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.8em;
+            border-bottom: 2px solid #5c6bc0;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #5c6bc0;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #5c6bc0;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3949ab;
+        }
+
+        .forgot-password {
+            margin-top: 15px;
+        }
+
+        .forgot-password a {
+            color: #5c6bc0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #3949ab;
+        }
+
+        #loginError {
+            color: red;
+            margin-top: 10px;
         }
     </style>
-
 </head>
 <body>
-
     <header>
         <div class="header-left">
             <img src="./Images/emblem_512.png" alt="Logo" class="logo">
             <h1>Red Hawks Mercenary Company</h1>
-           </div>
+        </div>
         <nav>
             <a href="home.html">Home</a>
             <a href="Login.html">Dashboard</a>
-            <a href="">Coming Soon</a>
+            <a href="#">Coming Soon</a>
             <a href="aboutus.html">About</a>
             <a href="admiral_rules.html">Admiral Rules</a>
             <a href="staffmembers.html">Staff Members</a>
@@ -32,45 +161,58 @@
 
     <div id="content">
         <section id="section1">
-            <h1 class="section-title">Please Login to continue to Dashboard</h1>
-            <form id="loginForm" action="#" method="post">
-                <input type="text" id="userID" name="userID" placeholder="User ID" required>
-                <input type="password" id="password" name="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-                <p id="loginError" style="color: red;"></p>
-            </form>
+            <div class="login-container">
+                <div class="login-form">
+                    <h2>Login</h2>
+                    <form id="loginForm" action="#" method="post">
+                        <div class="input-group">
+                            <label for="userID">User ID</label>
+                            <input type="text" id="userID" name="userID" placeholder="User ID" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Password" required>
+                        </div>
+                        <button type="submit">Login</button>
+                        <div class="forgot-password">
+                            <a href="#">Forgot Password?</a>
+                        </div>
+                        <p id="loginError"></p>
+                    </form>
+                </div>
+            </div>
         </section>
     </div>
 
     <script>
         document.getElementById("loginForm").addEventListener("submit", function(event) {
             event.preventDefault(); // Prevent the form from submitting
-    
+
             // Get the input values
             var enteredPassword = document.getElementById("password").value;
-    
+
             // Username (hardcoded)
             var enteredUsername = "tony";
-    
+
             // Create a new FileReader object
             var fileInput = new FileReader();
-    
+
             // Set up event handlers for successful file reading and errors
             fileInput.onload = function(event) {
                 var data = event.target.result;
-    
+
                 // Split the text into an array of lines
                 var lines = data.split("\n");
-    
+
                 // Iterate over each line
                 for (var i = 0; i < lines.length; i++) {
                     // Split each line by "="
                     var parts = lines[i].split("=");
-    
+
                     // Check if there are two parts
                     if (parts.length === 2 && parts[0].trim() === enteredUsername) {
                         var password = parts[1].trim();
-    
+
                         // Check if the password matches
                         if (password === enteredPassword) {
                             // Successful login
@@ -79,17 +221,17 @@
                         }
                     }
                 }
-    
+
                 // If no match is found, show an error message
                 document.getElementById("loginError").textContent = "Invalid username or password";
             };
-    
+
             fileInput.onerror = function(event) {
                 // If an error occurs during file read, show an error message
                 console.error('Error reading file:', event.target.error);
                 document.getElementById("loginError").textContent = "An error occurred while reading the file";
             };
-    
+
             // Read the file using fetch API
             fetch("./text-files/Users.txt")
                 .then(response => {
@@ -108,5 +250,41 @@
                 });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const boardElement = document.querySelector('h1[board]');
+            const message = boardElement.textContent.trim();
+            const characters = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~";
+            const speed = 10; // Speed in milliseconds
 
+            function updateBoard(finalMessage) {
+                let displayMessage = Array(finalMessage.length).fill(' ');
+                let index = 0;
+
+                function cycleCharacters() {
+                    if (index >= finalMessage.length) return;
+
+                    let currentChar = displayMessage[index];
+                    let targetChar = finalMessage[index];
+                    let charIndex = characters.indexOf(currentChar);
+
+                    if (currentChar !== targetChar) {
+                        charIndex = (charIndex + 1) % characters.length;
+                        displayMessage[index] = characters[charIndex];
+                        boardElement.textContent = displayMessage.join('');
+
+                        setTimeout(cycleCharacters, speed);
+                    } else {
+                        index++;
+                        cycleCharacters();
+                    }
+                }
+
+                cycleCharacters();
+            }
+
+            updateBoard(message);
+        });
+    </script>
 </body>
+</html>

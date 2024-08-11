@@ -83,6 +83,8 @@ stop_button_logger.grid(row=1, column=1, padx=10, pady=10)
 status_label_logger = tk.Label(root, text="Logger Bot: Stopped")
 status_label_logger.grid(row=1, column=2, padx=10, pady=10)
 
+# start_button_Debug_mode = tk.Button(root, text="Enable Debug mod", command=Debug_mode)
+
 # Check if this file is being run directly
 if __name__ == "__main__":
     # Run the main event loop
