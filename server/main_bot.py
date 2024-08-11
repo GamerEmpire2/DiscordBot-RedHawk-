@@ -211,12 +211,19 @@ async def execute_commands(commands):
                 print("Invalid channel ID:", command.get('channel_id'))
                 continue  # Skip to the next command
 
-            message = command.get('message')
+            message = command.get("message")
             channel = bot.get_channel(channel_id)
-            if channel:
+            
+            if Debug_mode and not message:
+                message = "The Bot is in [DEBUG] mode"
+            
+            if channel and message:
                 await channel.send(message)
             else:
-                print("Channel not found.")
+                if not channel:
+                    print("Channel not found")
+                if not message:
+                    print("Message is empty")
 
 def store_token(discord_id, token):
     db = mysql.connector.connect(
@@ -278,9 +285,9 @@ async def _Ban(ctx: commands.Context, user_id: int):
         user = await ctx.bot.fetch_user(user_id)
         user_rank_level = rank_level(ctx)
         
-        if user_rank_level == -2:
+        if user_rank_level == "-2":
             await ctx.send("Your rank is unknown. Please DM Tony or EMU for code help or DM PianoCat for a rank if you already have a rank.")
-        elif user_rank_level == -1:
+        elif user_rank_level == "-1":
             await ctx.author.send("You are banned. Please DM PianoCat for more info.")
         else:
             if user_rank_level in [9, 8, 7]:
