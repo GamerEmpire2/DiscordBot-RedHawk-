@@ -12,9 +12,42 @@ import mysql.connector
 import config
 import requests
 import re
+import argparse
 from argparse import ArgumentParser
 
 Debug_mode = False
+
+def process_arguments():
+    global Debug_mode
+
+    # Create the argument parser
+    parser = argparse.ArgumentParser(description="Turn on debug mode")
+
+    # Add a flag argument for Debug mode
+    parser.add_argument(
+        "--debugON",            # The argument name
+        action="store_true",    # This makes it a flag (boolean)
+        help="Enable debug mode"
+    )
+
+    # Parse the arguments
+    args = parser.parse_args()
+
+    # Check if the --debugON flag was provided
+    if args.debugON:
+        Debug_mode = True
+
+    # Output for debugging purposes
+    print(f"Debug mode: {Debug_mode}")
+
+# Call the function to process arguments
+process_arguments()
+
+# Example usage in your bot
+if Debug_mode:
+    print("Debug mode is active.")
+else:
+    print("Debug mode is not active.")
 
 # this will be your GUI but for now we will use cmd
 
@@ -424,6 +457,8 @@ async def _BotV(ctx):
     except requests.exceptions.RequestException as e:
         await ctx.send(f"Failed to fetch the file from GitHub: {e}")
     
+process_arguments()
+
 # on ready code:
 @bot.event
 async def on_ready():
