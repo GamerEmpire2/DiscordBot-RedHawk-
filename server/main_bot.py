@@ -14,12 +14,16 @@ import requests
 import re
 import argparse
 from argparse import ArgumentParser
+import pygame
+import sqlite3 as sqlite
 
 Debug_mode = False
+Normal_Mode = True
 
 def process_arguments():
     global Debug_mode
-
+    global Normal_Mode
+    
     # Create the argument parser
     parser = argparse.ArgumentParser(description="Turn on debug mode")
 
@@ -29,6 +33,11 @@ def process_arguments():
         action="store_true",    # This makes it a flag (boolean)
         help="Enable debug mode"
     )
+    parser.add_argument(
+        "--debugOFF",
+        action="store_false",
+        help="Debug Mode is Disabled"
+    )
 
     # Parse the arguments
     args = parser.parse_args()
@@ -36,6 +45,8 @@ def process_arguments():
     # Check if the --debugON flag was provided
     if args.debugON:
         Debug_mode = True
+    elif args.debugOFF:
+        Normal_Mode = True
 
     # Output for debugging purposes
     print(f"Debug mode: {Debug_mode}")
@@ -478,16 +489,31 @@ async def on_ready():
         if debug_channel:
             await debug_channel.send("Debug Mode On, Only this channel will see this message")
             intents.members = True
+    elif Normal_Mode:
+        Normal_Channel = bot.get_channel(Normal_Channels)
+        if Normal_Channel:
+            await Normal_Channel.send("Normal Mode is on and fully working")
     else:
         message = "Bot is online and ready. System now Operational"
         intents.members = True
 
+    if message == None:
+        message = "Message falled to load"
     print(message)
 
     for channel_id in Normal_Channels:
         channel = bot.get_channel(channel_id)
         if channel:
             await channel.send(message)
+
+# async def UpdatePresence():
+  #  activity = discord.activity(
+   #     name="----Bot working to come back Online----",
+    #    type=discord.ActivityType.playing,
+     #   start=None,
+      #  end=None,
+    # )
+    # await bot.change_presence(activity=activity)
 
 # bot run code:
 bot.add_cog(BotControl(bot))

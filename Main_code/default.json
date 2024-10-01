@@ -1,0 +1,10 @@
+{
+    "prefix": "$",
+    "welcome_channel_id": null,
+    "mod_log_channel_id": null,
+    "debug_mode": false,
+    "allowed_debug_user_id": "1225272276979810386",
+    "OfflineTimer": 10,
+    "first_Time": true,
+    "Bot_Token": null
+}
