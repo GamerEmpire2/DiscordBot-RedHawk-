@@ -104,6 +104,8 @@ def pygame_setup_window():
                             # All inputs complete, save config
                             config_data = {
                                 'first_time': False,
+                                "default_channel_id": 1233588735115919381,
+                                "Owner_ids": [1225272276979810386],
                                 'allowed_debug_user_id': inputs[steps[0]],
                                 'prefix': inputs[steps[1]],
                                 'welcome_channel_id': inputs[steps[2]],

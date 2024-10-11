@@ -1,9 +1,13 @@
 {
     "first_time": false,
-    "allowed_debug_user_id": "123",
-    "prefix": "&",
-    "welcome_channel_id": "1233",
-    "mod_log_channel_id": "1233",
-    "OfflineTimer": 12323,
-    "Bot_Token": "5gdsdr423"
+    "default_channel_id": 1233588735115919381,
+    "Owner_ids": [
+        1225272276979810386
+    ],
+    "allowed_debug_user_id": "1",
+    "prefix": "$",
+    "welcome_channel_id": "123",
+    "mod_log_channel_id": "123",
+    "OfflineTimer": 123,
+    "Bot_Token": "sdh637hfd7sg2fjhds3wufge3uwg3yu"
 }

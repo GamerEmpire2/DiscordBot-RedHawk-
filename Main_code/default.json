@@ -6,5 +6,7 @@
     "allowed_debug_user_id": "1225272276979810386",
     "OfflineTimer": 10,
     "first_Time": true,
-    "Bot_Token": null
+    "Bot_Token": "",
+    "default_channel_id": 1233588735115919381,
+    "Owners_ids": [1225272276979810386]
 }
